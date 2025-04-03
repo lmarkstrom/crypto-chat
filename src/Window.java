@@ -11,6 +11,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class Window extends JPanel implements ActionListener{
+    private JTextField inputField;
+    private JTextArea conversationArea;
+
     public int width = 800;
     public int height = 600;
 
@@ -44,6 +47,7 @@ public class Window extends JPanel implements ActionListener{
         this.state = state;
         this.SERVER_ADRESS = adress;
         this.SERVER_PORT = port;
+        System.out.println("Config " + state + ": " + "Adress: " + adress + " Port: " + port);
 
         this.removeAll();
         this.setLayout(null);
@@ -63,12 +67,12 @@ public class Window extends JPanel implements ActionListener{
         back.addActionListener(this);
         back.setBounds(10, 10, 150, 30);
 
-        JTextArea conversationArea = new JTextArea();
+        conversationArea = new JTextArea();
         conversationArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(conversationArea);
         scrollPane.setBounds(this.width / 2 - 150, 150, 300, 200);
 
-        JTextField inputField = new JTextField();
+        inputField = new JTextField();
         inputField.setBounds(this.width / 2 - 100, 370, 200, 30);
 
         JButton sendButton = new JButton("SEND");
@@ -98,9 +102,18 @@ public class Window extends JPanel implements ActionListener{
                 break;
             case "send":
                 System.out.println("send");
+                sendMessage();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void sendMessage(){
+        String message = inputField.getText();  // Get text from input field
+        if (!message.isEmpty()) {
+            conversationArea.append("You: " + message + "\n");  // Display message
+            inputField.setText("");  // Clear the input field after sending
         }
     }
 }
